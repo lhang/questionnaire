@@ -6,16 +6,16 @@
           <span>注册</span><br/>
        </p>
        <p>
-          <span>用户名</span><br/>
-          <input type="text" name="user"  placeholder="邮箱/手机号/昵称" class="user" required><br/>
+          <span>邮箱</span><br/>
+          <input type="text" name="user"  placeholder="邮箱/手机号" class="user" v-model="account" required><br/>
           <span>密码</span><br/>
-          <input type="password" name="key" class="key" required><br/>
+          <input type="password" name="key" class="key" v-model="passwd1" required><br/>
           <span>请再次输入设置的密码</span><br/>
-          <input type="password" name="key" class="key" required><br/>
+          <input type="password" name="key" class="key" v-model="passwd2" required><br/>
         </p>
         <p>
           <!--使用v-link进行导航-->
-          <button type="sublim" v-link="{path:'/retologin'}">注册</button> 
+          <button type="sublim" v-on:click="onregist">注册</button> 
        </p>
       </div>
     </div>
@@ -26,6 +26,25 @@
 export default {
   data () {
     return {
+      account: '',
+      passwd1: '',
+      passwd2: ''
+    }
+  },
+  methods: {
+    onregist () {
+      console.log(this.account)
+      var all_user
+      if (!window.localStorage.user) window.localStorage.user = [] else all_user = JSON.parse(window.locaStorage.user)
+      if (this.account && this.passwd2 && this.passwd1) {
+        if (this.passwd2.match(this.passwd1) && !all_user[this.account]) {
+          window.localStorage.user.push({'account': this.account, 'password': this.passwd1})
+        } else {
+          console.log('已有相同用户或密码不同')
+        }
+      } else {
+        console.log('info not complete')
+      }
     }
   }
 }

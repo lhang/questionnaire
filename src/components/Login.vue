@@ -34,14 +34,18 @@
 export default {
   data () {
     return {
+      account: '11'
     }
   },
   methods: {
     login () {
+      if (!window.localStorage.user) window.localStorage.user = {}
       var account = window.localStorage.user[this.account]
+      console.log(this.account)
       if (account) {
         if (account.password.match(this.passwd)) {
-          router.redirect({'/login': '/home'})
+          // router.redirect({'/login': '/home'})
+          console.log(this)
         } else {
           console.log('no password')
         }
